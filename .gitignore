@@ -3,5 +3,16 @@
 /.idea/
 /.vagrant
 *.retry
+!/roles
+/roles/*
 
 ### project specific
+
+!/roles/dotfiles/
+!/roles/dotfiles/**
+
+!/roles/devsetup/
+!/roles/devsetup/**
+
+!/roles/aws-cli/
+!/roles/aws-cli/**
