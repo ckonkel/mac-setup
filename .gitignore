@@ -1,6 +1,6 @@
 ### common
 .DS_Store
-/.idea/
+/.idea
 /.vagrant
 *.retry
 !/roles
