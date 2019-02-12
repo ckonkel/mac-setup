@@ -1,0 +1,28 @@
+#!/usr/bin/env ansible-playbook
+---
+# Ansible playbook for setting up a mac
+#
+# @author Chris Konkel (2019).
+#
+# ansible-playbook main.yml --check
+
+- hosts: all
+  connection: local
+
+  vars_files:
+    - default.config.yml
+
+#  pre_tasks:
+#    - include_vars: "{{ item }}"
+#      with_fileglob:
+#        - ../config.yml
+#
+#    - name: Fix for homebrew permissions until role is updated
+#      shell: chown -R $(whoami) /usr/local/bin
+#      become: yes
+
+  roles:
+    - dotfiles
+#    - geerlingguy.homebrew
+#    - { role: balops.aws-cli, tags: ['aws-cli'] }
+#    - devsetup

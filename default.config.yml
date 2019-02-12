@@ -1,0 +1,56 @@
+---
+# role balops.aws-cli
+aws_cli_system_user: root
+aws_cli_profile: default
+aws_cli_access_key: "<accesss-key>"
+aws_cli_secret_key: "<secret-key>"
+aws_cli_region: us-east-1
+aws_cli_format: json
+
+#### role appsetup
+downloads: ~/.ansible-downloads/
+configure_sudoers: yes
+
+#### role dotfiles
+dotfiles_home: "~"
+dotfiles_files:
+  - .bash_profile
+  - .inputrc
+  - .osx
+  - .vimrc
+
+#### role geerlingguy.homebrew
+homebrew_installed_packages:
+  - ssh-copy-id
+  - bash-completion
+  - nmap
+  - pv
+  - wget
+#  - httpie
+#  - tmux
+#  - npm
+#  - nvm
+#  - autoconf
+
+homebrew_taps:
+  - homebrew/core
+  - caskroom/cask
+  - homebrew/binary
+  - homebrew/dupes
+  - homebrew/php
+  - homebrew/versions
+
+homebrew_cask_appdir: /Applications
+homebrew_cask_apps:
+  - sequel-pro # @TODO add favorites to that include basic db connections a developer needs
+  - slack
+  - iterm2
+#  - sublime-text #currently bugs out with permissions issues ==> ln: /usr/local/bin/subl: Permission denied
+#  - firefox
+#  - google-chrome
+#  - docker
+#  - vagrant # Need to get specific version
+#  - virtualbox # Need to install specific version
+#  - onyx
+#  - licecap
+#  - nvalt

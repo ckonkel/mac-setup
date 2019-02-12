@@ -1,0 +1,7 @@
+---
+dotfiles_home: "~"
+dotfiles_files:
+  - .bash_profile
+  - .inputrc
+  - .macos
+  - .vimrc

@@ -1,0 +1,24 @@
+---
+- name: Create a directory for terminal session logs
+  file:
+    path: ~/terminal/log
+    state: directory
+    mode: 0755
+
+- name: Copy dotfiles into home folder.
+  copy:
+    src: "{{ item }}"
+    dest: "{{ dotfiles_home }}/{{ item }}"
+    backup: yes
+  become: no
+  with_items: "{{ dotfiles_files }}"
+
+- name: Make .macos executable
+  file:
+    path: "{{ dotfiles_home }}/.macos"
+    mode: "u+x"
+
+# TODO: Use sudo once .macos can be run via root with no user interaction.
+- name: Run .macos dotfile
+  shell: ~/.macos --no-restart
+  changed_when: false

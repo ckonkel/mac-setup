@@ -1,0 +1,49 @@
+- name: Forcefully remove previous installation so that updates work successfully.
+  file: state=absent dest=/tmp/awscli-bundle
+  become: yes
+
+- name: Ensure this dir exists (mac)
+  file: state=directory dest=/usr/local/src/ mode=644
+  become: yes
+
+- name: Download latest awscli bundle
+  get_url: url='https://s3.amazonaws.com/aws-cli/awscli-bundle.zip' dest=/usr/local/src/ mode=644
+  become: yes
+
+- shell: whereis unzip
+  register: unzip_installed
+
+- name: Install Unzip
+  apt: name=unzip state=present
+  when: ansible_distribution == "Ubuntu"
+  become: yes
+
+- name: Unzip archive
+  unarchive: dest=/tmp/ src=/usr/local/src/awscli-bundle.zip copy=no
+  become: yes
+
+- name: Install
+  shell: /tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+  become: yes
+
+- name: Symlink to /usr/bin so ansible is able to find aws command
+  file: state=link src=/usr/local/bin/aws dest=/usr/bin/aws owner=root group=root mode=777
+  when: ansible_distribution == "Ubuntu"
+  become: yes
+
+- name: Symlink to /usr/bin so ansible is able to find aws command (might fail if system integrity is enabled on mac)
+  file: state=link src=/usr/local/bin/aws dest=/usr/bin/aws owner=root group=staff mode=777
+  when: ansible_distribution != "Ubuntu"
+  become: yes
+  ignore_errors: true
+
+- name: Configure AWS.
+  shell: aws configure set {{ item.key }} {{ item.value }} --profile {{ aws_cli_profile }}
+  no_log: True
+  with_dict:
+    aws_access_key_id: "{{ aws_cli_access_key }}"
+    aws_secret_access_key: "{{ aws_cli_secret_key }}"
+    region: "{{ aws_cli_region }}"
+    format: "{{ aws_cli_format }}"
+ # become_user: "{{ aws_cli_system_user }}"
+  changed_when: false

@@ -1,0 +1,3 @@
+---
+downloads: ~/.ansible-downloads/
+configure_sudoers: yes
